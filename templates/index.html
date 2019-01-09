@@ -1,0 +1,12 @@
+{{ template "header.html" .}}
+<form method="POST" action="send">
+  <div class="form-group">
+    <div class="row text-left">
+      <div class="col-xs-12 col-md-12">
+        <textarea name="text" rows="{{ .rows }}" style="width: 100%">{{ .text }}</textarea>		
+        <input type="submit" class="btn btn-primary" style="background-color: #947892;border: none; width: 100%; border-radius: 10px" value="Save">  
+      </div>
+    </div>
+	</div>
+</form>
+{{ template "footer.html" .}}
