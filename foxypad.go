@@ -23,10 +23,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const filename string = "foxypad.txt"
-const port string = ":8888"
-const rows string = "20"
+const filename string = "foxypad.txt" //data filename
+const port string = ":8888"           //port number
+const rows string = "20"              //rows number
+const login string = "user"           //login
+const password string = "password"    //password
 
+//error check
 func check(e error) {
 	if e != nil {
 		panic(e)
@@ -34,21 +37,29 @@ func check(e error) {
 }
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 	authorized := r.Group("/", gin.BasicAuth(gin.Accounts{
-		"user": "password",
+		login: password,
 	}))
 
+	//404 handler
+	r.NoRoute(func(c *gin.Context) {
+		c.Redirect(302, "/")
+	})
+
+	//main page handler
 	authorized.GET("/", func(c *gin.Context) {
-		f, err := os.Open(filename)
+		f, err := os.Open(filename) //data file open
 		check(err)
-		_, err = f.Seek(0, 0)
+		_, err = f.Seek(0, 0) //go to begin of file
 		check(err)
-		b, err := ioutil.ReadAll(f)
+		b, err := ioutil.ReadAll(f) //data read from opened file
 		check(err)
-		f.Close()
-		text := string(b)
+		f.Close()         //data file close
+		text := string(b) //conversion binary data to string
+		//page display
 		c.HTML(
 			http.StatusOK,
 			"index.html",
@@ -59,21 +70,15 @@ func main() {
 		)
 	})
 
+	//data send handler
 	authorized.POST("/send", func(c *gin.Context) {
-		text := c.PostForm("text")
-		f, err := os.Create(filename)
+		text := c.PostForm("text")    //get data from POST query
+		f, err := os.Create(filename) //data file create
 		check(err)
 		defer f.Close()
-		_, err = f.WriteString(text)
-		f.Sync()
-		c.HTML(
-			http.StatusOK,
-			"index.html",
-			gin.H{
-				"text": text,
-				"rows": rows,
-			},
-		)
+		_, err = f.WriteString(text) //write data to file
+		f.Sync()                     //file sync
+		c.Redirect(302, "/")         //go to main page
 	})
 
 	r.Run(port)
