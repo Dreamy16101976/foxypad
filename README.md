@@ -16,6 +16,7 @@ Build:<br/>
 <b>go get -u github.com/gin-gonic/gin</b> (Gin framework installation)<br/>
 <b>go build foxypad.go</b><br/>
 Use - on home server or VPS<br/>
+Screenshot from smartphone: https://foxylab.com/foxypad.png<br/>
 <br/>
 <i>foxypad</i> - простой онлайн-блокнот с авторизацией на Go<br/>
 <br/>
@@ -34,7 +35,8 @@ const password string = "password"    //пароль
 Компиляция:<br/>
 <b>go get -u github.com/gin-gonic/gin</b> (установка фреймворка Gin)<br/>
 <b>go build foxypad.go</b><br/>
-Использование - на домашнем сервере или VPS
+Использование - на домашнем сервере или VPS.<br/>
+Скриншот со смартфона: https://foxylab.com/foxypad.png
 
 
 
